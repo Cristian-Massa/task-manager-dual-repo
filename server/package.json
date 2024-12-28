@@ -21,7 +21,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node -r tsconfig-paths/register --env-file src/main.ts",
+    "start": "npx ts-node -r tsconfig-paths/register --env-file src/main.ts",
     "dev": "ts-node-dev -r tsconfig-paths/register --notify --env-file .env ./src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
