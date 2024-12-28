@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #f8f8f8;
+  --contrast-color: #ff6f61;
+  --background-container-color: #e0e0e0;
+  --background-contrast-color: #222222;
+  --principal-text-color: #333333;
+  --secondary-text-color: #f0f0f0f0;
+}
+@layer base {
+  /* Personalizar la scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px; /* Ancho de la scrollbar */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ff6f61; /* Color del "dedo" de la scrollbar */
+    border-radius: 4px; /* Bordes redondeados */
+    border: 2px solid #f8f8f8; /* Borde del "dedo" para darle un efecto de profundidad */
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f8f8f8; /* Color de fondo de la barra de desplazamiento */
+    border-radius: 4px;
+  }
+
+  body {
+    background-color: var(--bg-color);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  label {
+    color: var(--principal-text-color);
+  }
+
+  button {
+    /* background-color: var(--background-contrast-color); */
+    color: var(--secondary-text-color);
+    border-radius: 15px;
+    padding: 6px 10px 6px 10px;
+    &:hover {
+      background-color: var(--contrast-color);
+    }
+  }
+}
+@layer components {
+  .bg-container-header {
+    background-color: var(--contrast-color);
+  }
+  .bg-principal {
+    background-color: var(--bg-color);
+  }
+  .bg-container {
+    background-color: var(--background-container-color);
+  }
+  .bg-container-secondary {
+    background-color: var(--background-contrast-color);
+  }
+}
