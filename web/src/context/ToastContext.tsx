@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
-
+import { TYPE_COLORS } from "../constants/toastColors";
 type Type = "message" | "success" | "error";
 interface IToast {
   id: number;
@@ -9,11 +9,6 @@ interface IToast {
   type: Type;
 }
 
-const TYPE_COLORS = {
-  message: "bg-gray-800",
-  success: "bg-green-500",
-  error: "bg-red-400",
-};
 interface IToastContext {
   addToast: (message: string, type: Type) => void;
 }

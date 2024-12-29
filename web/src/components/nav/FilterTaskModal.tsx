@@ -15,17 +15,14 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
   const { isLoading, data, doFetch } = useFetch<ITasks[]>();
   const { setTasks } = useTasks();
 
-  const [filter, setFilter] = useState<boolean | undefined>();
+  const [filter, setFilter] = useState<boolean | null>();
 
   function handleFilter(completed?: boolean) {
     setFilter(completed);
   }
 
   function handleFilterTasks() {
-    doFetch(
-      `tasks${typeof filter !== "undefined" ? `?filter=${filter}` : ""}`,
-      "GET"
-    );
+    doFetch(`tasks${filter !== null ? `?filter=${filter}` : ""}`, "GET");
   }
   useEffect(() => {
     if (data) {
@@ -50,7 +47,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
             <label htmlFor="completed-tasks">Completed Tasks</label>
             <Switch
               type="radio"
-              checked={filter}
+              checked={filter === true && filter !== null}
               onChange={() => handleFilter(true)}
               htmlFor="completed-tasks"
             />
@@ -59,7 +56,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
             <label htmlFor="to-do-tasks">To do Tasks</label>
             <Switch
               type="radio"
-              checked={!filter && typeof filter !== "undefined"}
+              checked={filter === false && filter !== null}
               onChange={() => handleFilter(false)}
               htmlFor="to-do-tasks"
             />

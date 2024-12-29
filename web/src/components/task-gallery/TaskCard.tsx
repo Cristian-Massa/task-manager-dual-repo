@@ -14,7 +14,7 @@ interface ITaskCard {
 export function TaskCard({ card }: ITaskCard) {
   const { addToast } = useToast();
   const { tasks, setTasks } = useTasks();
-  const { data, doFetch } = useFetch<string>();
+  const { data, doFetch, isLoading } = useFetch<string>();
 
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
   const [isViewTaskModalOpen, setIsViewTaskModalOpen] = useState(false);
@@ -47,7 +47,9 @@ export function TaskCard({ card }: ITaskCard) {
           </div>
         </div>
         <div className="p-2 bg-black flex flex-col">
-          <button onClick={handleDelete}>delete</button>
+          <button disabled={isLoading} onClick={handleDelete}>
+            delete
+          </button>
           <button onClick={() => toggleIsOpen(setIsEditTaskModalOpen)}>
             edit
           </button>

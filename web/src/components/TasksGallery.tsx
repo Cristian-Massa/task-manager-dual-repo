@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export function TasksGallery() {
   const { tasks } = useTasks();
-  const completedTasks = tasks?.filter((task) => task.completed === true);
-  const todoTasks = tasks?.filter((task) => task.completed === false);
+  const completedTasks =
+    Array.isArray(tasks) && tasks?.filter((task) => task.completed === true);
+  const todoTasks =
+    Array.isArray(tasks) && tasks?.filter((task) => task.completed === false);
 
   return (
     <main className="flex flex-col md:flex-row items-center md:items-start  justify-center md:w-full gap-4 p-10">
-      {!!completedTasks.length && (
+      {Array.isArray(completedTasks) && !!completedTasks.length && (
         <section className="flex flex-col gap-2 ">
           <h1 className="text-center font-bold text-xl">Completed tasks</h1>
           <AnimatePresence>
@@ -28,7 +30,7 @@ export function TasksGallery() {
           </AnimatePresence>
         </section>
       )}
-      {!!todoTasks.length && (
+      {Array.isArray(todoTasks) && !!todoTasks.length && (
         <section className="flex flex-col gap-2">
           <h1 className="text-center font-bold text-xl">To do tasks</h1>
           <AnimatePresence>
@@ -47,7 +49,7 @@ export function TasksGallery() {
           </AnimatePresence>
         </section>
       )}
-      {!todoTasks.length && !completedTasks.length && (
+      {!Array.isArray(todoTasks) && !Array.isArray(completedTasks) && (
         <p className="font-bold">No Tasks found, add some</p>
       )}
     </main>
