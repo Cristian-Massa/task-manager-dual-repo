@@ -49,3 +49,4 @@ export class MongoDB {
     }
   }
 }
+export const mongoDb = MongoDB.getInstance();

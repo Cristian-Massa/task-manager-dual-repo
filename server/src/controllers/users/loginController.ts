@@ -1,4 +1,3 @@
-import { MongoDB } from "@/mongoose/MongoDbConnection";
 import { NODE_ENV } from "@/src/config/envConfig";
 import { Users } from "@/src/models/Users";
 import { createToken } from "@/src/utils/createToken";
@@ -12,10 +11,8 @@ export async function loginController(req: Request, res: Response) {
     return;
   }
 
-  const mongoDb = MongoDB.getInstance();
   const userInfo = req.body;
   try {
-    await mongoDb.connect();
     const findUser = await Users.findOne({
       username: userInfo.username,
     });
@@ -40,7 +37,5 @@ export async function loginController(req: Request, res: Response) {
     res.status(200).json("Welcome!");
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
-  } finally {
-    await mongoDb.disconnect();
   }
 }

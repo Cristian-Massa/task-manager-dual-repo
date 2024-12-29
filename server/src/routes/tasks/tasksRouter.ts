@@ -3,13 +3,13 @@ import { tasksGetController } from "@/src/controllers/tasks/tasksGetController";
 import { tasksGetDetailedController } from "@/src/controllers/tasks/tasksGetDetailedController";
 import { tasksPostController } from "@/src/controllers/tasks/tasksPostController";
 import { tasksUpdateController } from "@/src/controllers/tasks/tasksUpdateController";
-import { authMiddleware } from "@/src/middlewares/authMiddleware";
+import { authenticateMiddleware } from "@/src/middlewares/authenticateMiddleware";
 import { Router } from "express";
 import { body, param } from "express-validator";
 
 export const tasksRouter = Router();
 
-tasksRouter.use("/tasks", authMiddleware);
+tasksRouter.use("/tasks", authenticateMiddleware);
 tasksRouter.get("/tasks", tasksGetController);
 tasksRouter.get(
   "/tasks/:id",

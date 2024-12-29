@@ -1,7 +1,7 @@
 import { loginController } from "@/src/controllers/users/loginController";
 import { registerController } from "@/src/controllers/users/registerController";
 import { verifySession } from "@/src/controllers/users/verifySession";
-import { authMiddleware } from "@/src/middlewares/authMiddleware";
+import { authenticateMiddleware } from "@/src/middlewares/authenticateMiddleware";
 import { Router } from "express";
 import { body } from "express-validator";
 
@@ -28,5 +28,5 @@ usersRouter.post(
   ],
   registerController
 );
-usersRouter.use("/users/verifySession", authMiddleware);
+usersRouter.use("/users/verifySession", authenticateMiddleware);
 usersRouter.get("/users/verifySession", verifySession);

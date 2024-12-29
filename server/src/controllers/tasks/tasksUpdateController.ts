@@ -1,4 +1,3 @@
-import { MongoDB } from "@/mongoose/MongoDbConnection";
 import { Tasks } from "@/src/models/Tasks";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
@@ -12,10 +11,7 @@ export async function tasksUpdateController(req: Request, res: Response) {
   }
   const { id } = req.params;
   const updateData = req.body;
-  const mongoDB = MongoDB.getInstance();
   try {
-    await mongoDB.connect();
-
     const updatedTask = await Tasks.findByIdAndUpdate({ _id: id }, updateData, {
       new: true,
     }).select({
@@ -30,7 +26,5 @@ export async function tasksUpdateController(req: Request, res: Response) {
   } catch (error) {
     console.error("Error updating task:", error);
     res.status(500).json({ error: (error as Error).message });
-  } finally {
-    await mongoDB.disconnect();
   }
 }

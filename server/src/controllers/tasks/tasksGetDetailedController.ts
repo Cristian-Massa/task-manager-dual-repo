@@ -1,4 +1,3 @@
-import { MongoDB } from "@/mongoose/MongoDbConnection";
 import { Tasks } from "@/src/models/Tasks";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
@@ -10,9 +9,7 @@ export async function tasksGetDetailedController(req: Request, res: Response) {
     return;
   }
   const { id } = req.params;
-  const mongoDB = MongoDB.getInstance();
   try {
-    await mongoDB.connect();
     const tasks = await Tasks.findOne({ _id: id }).select({
       __v: 0,
     });
@@ -25,7 +22,5 @@ export async function tasksGetDetailedController(req: Request, res: Response) {
   } catch (error) {
     console.log(error as Error);
     res.status(500).json({ error: "Internal server error" });
-  } finally {
-    await mongoDB.disconnect();
   }
 }
