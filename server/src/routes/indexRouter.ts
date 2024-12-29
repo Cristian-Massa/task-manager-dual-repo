@@ -1,4 +1,5 @@
 import { tasksRouter } from "@/src/routes/tasks/tasksRouter";
+import { usersRouter } from "@/src/routes/users/usersRouter";
 import { Router } from "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
@@ -20,3 +21,4 @@ const swaggerSpec = swaggerJSDoc(options);
 
 indexRouter.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 indexRouter.use("/api", tasksRouter);
+indexRouter.use("/api", usersRouter);

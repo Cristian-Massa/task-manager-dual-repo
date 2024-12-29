@@ -15,7 +15,6 @@ export async function tasksPostController(req: Request, res: Response) {
   try {
     await mongoDB.connect();
     const tasks = await Tasks.create({ title, description });
-    await mongoDB.disconnect();
     if (!tasks) {
       res.status(400).json({ error: "Task not created" });
       return;
@@ -23,5 +22,7 @@ export async function tasksPostController(req: Request, res: Response) {
     res.status(201).json(tasks);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    await mongoDB.disconnect();
   }
 }

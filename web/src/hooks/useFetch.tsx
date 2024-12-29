@@ -23,6 +23,11 @@ export function useFetch<T>() {
     })
       .then(async (res) => {
         const data = await res.json();
+        // Errors by server / database errors
+        if (data.error) {
+          addToast(data.error, "error");
+        }
+        // Errors by express Validator (req values)
         if (data.errors) {
           data.errors.forEach((error: ExpressValidatorError) => {
             addToast(error.msg, "error");

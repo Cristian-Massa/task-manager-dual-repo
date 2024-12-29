@@ -16,7 +16,6 @@ export async function tasksGetDetailedController(req: Request, res: Response) {
     const tasks = await Tasks.findOne({ _id: id }).select({
       __v: 0,
     });
-    await mongoDB.disconnect();
 
     if (!tasks) {
       res.status(404).json({ error: "Task not found" });
@@ -26,5 +25,7 @@ export async function tasksGetDetailedController(req: Request, res: Response) {
   } catch (error) {
     console.log(error as Error);
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    await mongoDB.disconnect();
   }
 }

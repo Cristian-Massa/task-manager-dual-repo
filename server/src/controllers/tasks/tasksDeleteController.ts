@@ -22,10 +22,10 @@ export async function tasksDeleteController(req: Request, res: Response) {
       return;
     }
 
-    await mongoDB.disconnect();
-
     res.status(200).json("Task deleted");
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    await mongoDB.disconnect();
   }
 }

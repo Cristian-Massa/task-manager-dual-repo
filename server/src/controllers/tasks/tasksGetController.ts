@@ -17,7 +17,6 @@ export async function tasksGetController(req: Request, res: Response) {
       description: 0,
     });
 
-    await mongoDB.disconnect();
     if (!tasks.length) {
       res.status(404).json({ error: "Tasks not found" });
       return;
@@ -25,5 +24,7 @@ export async function tasksGetController(req: Request, res: Response) {
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
+  } finally {
+    await mongoDB.disconnect();
   }
 }
