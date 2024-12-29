@@ -41,7 +41,7 @@ export function AuthContextProvider({ children }: IAuthContextProvider) {
     }
   }, [data]);
   useEffect(() => {
-    doFetch("/users/verifySession", "GET");
+    doFetch("users/verifySession", "GET");
   }, []);
   return (
     <AuthContext.Provider value={{ isAuthenticated, auth, isLoading }}>
