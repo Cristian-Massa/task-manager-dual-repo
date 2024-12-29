@@ -1,17 +1,14 @@
 import { Nav } from "./components/Nav";
 import { TasksGallery } from "./components/TasksGallery";
-import { TasksContextProvider } from "./context/TasksContext";
-import { ToastContextProvider } from "./context/ToastContext";
-
+import { Auth } from "./components/Auth";
+import { useAuth } from "./context/AuthContext";
 function App() {
+  const { isLoading, isAuthenticated } = useAuth();
+
   return (
     <>
-      <ToastContextProvider>
-        <TasksContextProvider>
-          <Nav />
-          <TasksGallery />
-        </TasksContextProvider>
-      </ToastContextProvider>
+      <Nav />
+      {!isLoading && (isAuthenticated ? <TasksGallery /> : <Auth />)}
     </>
   );
 }

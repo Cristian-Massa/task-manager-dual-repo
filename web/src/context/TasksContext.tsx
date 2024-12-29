@@ -8,6 +8,7 @@ import {
 } from "react";
 import { ITasks } from "../types/tasks";
 import { useFetch } from "../hooks/useFetch";
+import { useAuth } from "./AuthContext";
 
 interface ITasksContext {
   tasks: ITasks[];
@@ -24,13 +25,16 @@ interface ITasksContextProvider {
 }
 
 export function TasksContextProvider({ children }: ITasksContextProvider) {
+  const { isAuthenticated } = useAuth();
   const [tasks, setTasks] = useState<ITasks[]>([]);
   const { data, doFetch } = useFetch<ITasks[]>();
 
   useEffect(() => {
-    doFetch("tasks", "GET");
+    if (isAuthenticated) {
+      doFetch("tasks", "GET");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (data) {

@@ -1,5 +1,6 @@
 import { loginController } from "@/src/controllers/users/loginController";
 import { registerController } from "@/src/controllers/users/registerController";
+import { verifySession } from "@/src/controllers/users/verifySession";
 import { Router } from "express";
 import { body } from "express-validator";
 
@@ -26,3 +27,5 @@ usersRouter.post(
   ],
   registerController
 );
+
+usersRouter.get("/users/verifySession", verifySession);

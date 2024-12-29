@@ -1,8 +1,10 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { CreateTaskModal } from "./nav/CreateTaskModal";
 import { FilterTaskModal } from "./nav/FilterTaskModal";
+import { useAuth } from "../context/AuthContext";
 
 export function Nav() {
+  const { isAuthenticated } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   function toggleCreateModal(cb: Dispatch<SetStateAction<boolean>>) {
@@ -15,22 +17,32 @@ export function Nav() {
           <h1 className="font-bold">Task Manager App</h1>
         </li>
         <li className="flex gap-4">
-          <button onClick={() => toggleCreateModal(setIsFilterModalOpen)}>
+          <button
+            disabled={!isAuthenticated}
+            onClick={() => toggleCreateModal(setIsFilterModalOpen)}
+          >
             Filter
           </button>
-          <button onClick={() => toggleCreateModal(setIsCreateModalOpen)}>
+          <button
+            disabled={!isAuthenticated}
+            onClick={() => toggleCreateModal(setIsCreateModalOpen)}
+          >
             Create
           </button>
         </li>
       </ul>
-      <CreateTaskModal
-        isOpen={isCreateModalOpen}
-        onClose={() => toggleCreateModal(setIsCreateModalOpen)}
-      />
-      <FilterTaskModal
-        isOpen={isFilterModalOpen}
-        onClose={() => toggleCreateModal(setIsFilterModalOpen)}
-      />
+      {isAuthenticated && (
+        <>
+          <CreateTaskModal
+            isOpen={isCreateModalOpen}
+            onClose={() => toggleCreateModal(setIsCreateModalOpen)}
+          />
+          <FilterTaskModal
+            isOpen={isFilterModalOpen}
+            onClose={() => toggleCreateModal(setIsFilterModalOpen)}
+          />
+        </>
+      )}
     </nav>
   );
 }
