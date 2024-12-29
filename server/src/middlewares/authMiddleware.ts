@@ -7,7 +7,6 @@ export function authMiddleware(
   next: NextFunction
 ) {
   const session = req.cookies["session"];
-
   if (!session) {
     res.status(401).json({ error: "Pleas log in for do that" });
     return;
