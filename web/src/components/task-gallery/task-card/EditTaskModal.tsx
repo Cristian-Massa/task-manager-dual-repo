@@ -16,11 +16,13 @@ export function EditTaskModal({ isOpen, onClose, card }: IEditTaskModal) {
   const { isLoading, data, doFetch } = useFetch<ITasks>();
   const { addToast } = useToast();
   const { tasks, setTasks } = useTasks();
+
   const [taskInfo, setTaskInfo] = useState({
     title: card.title ?? "",
     description: card.description ?? "",
     completed: card.completed ?? false,
   });
+
   function handleTaskInfo(info: string | boolean, id: string) {
     setTaskInfo((prev) => ({
       ...prev,
@@ -31,6 +33,7 @@ export function EditTaskModal({ isOpen, onClose, card }: IEditTaskModal) {
   function handleUpdateTask() {
     doFetch(`tasks/${card._id}`, "PUT", JSON.stringify(taskInfo));
   }
+
   useEffect(() => {
     if (data) {
       const index = tasks.findIndex((element) => element._id === data._id);
@@ -48,7 +51,7 @@ export function EditTaskModal({ isOpen, onClose, card }: IEditTaskModal) {
 
   return (
     <Modal
-      title="Create Task"
+      title="Edit Task"
       onClose={onClose}
       isOpen={isOpen}
       isLoading={isLoading}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { VITE_BACKEND_ENDPOINT } from "../config/envConfig";
 import { useToast } from "../context/ToastContext";
-type Method = "GET" | "POST" | "PUT" | "DELETE";
+import { Method } from "../types/methods";
 
 export function useFetch<T>() {
   const { addToast } = useToast();

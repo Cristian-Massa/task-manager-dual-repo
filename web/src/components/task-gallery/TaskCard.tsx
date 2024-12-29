@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { ITasks } from "../../types/tasks";
 import { useTasks } from "../../context/TasksContext";
 import { EditTaskModal } from "./task-card/EditTaskModal";
 import { useToast } from "../../context/ToastContext";
 import { EditCheckboxFromList } from "./task-card/EditCheckboxFromList";
+import { ViewTaskModal } from "./task-card/ViewTaskModal";
 
 interface ITaskCard {
   card: ITasks;
@@ -14,9 +15,12 @@ export function TaskCard({ card }: ITaskCard) {
   const { addToast } = useToast();
   const { tasks, setTasks } = useTasks();
   const { data, doFetch } = useFetch<string>();
-  const [isOpen, setIsOpen] = useState(false);
-  function toggleIsOpen() {
-    setIsOpen((prev) => !prev);
+
+  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
+  const [isViewTaskModalOpen, setIsViewTaskModalOpen] = useState(false);
+
+  function toggleIsOpen(cb: Dispatch<SetStateAction<boolean>>) {
+    cb((prev) => !prev);
   }
 
   async function handleDelete() {
@@ -32,22 +36,37 @@ export function TaskCard({ card }: ITaskCard) {
   }, [data]);
 
   return (
-    <div className="w-[300px] relative border shadow-md rounded-lg overflow-hidden">
-      <div className="flex justify-between p-2 text-center bg-container-header">
-        <h1 className="truncate">{card.title}</h1>
-        <EditCheckboxFromList card={card} />
+    <>
+      <div className="w-[300px] grid grid-cols-3 border shadow-md rounded-lg overflow-hidden">
+        <div className="col-span-2 flex flex-col justify-between p-2 text-center bg-container-header">
+          <div>
+            <h1 className="truncate">{card.title}</h1>
+          </div>
+          <div className="bg-principal rounded-lg border">
+            <p>{new Date(card.createdAt).toDateString()}</p>
+          </div>
+        </div>
+        <div className="p-2 bg-black flex flex-col">
+          <button onClick={handleDelete}>delete</button>
+          <button onClick={() => toggleIsOpen(setIsEditTaskModalOpen)}>
+            edit
+          </button>
+          <button onClick={() => toggleIsOpen(setIsViewTaskModalOpen)}>
+            view
+          </button>
+          <EditCheckboxFromList card={card} />
+        </div>
       </div>
-      <div className="p-2">
-        <p>Created at: {new Date(card.createdAt).toDateString()}</p>
-      </div>
-      <div className="px-2 min-h-10">
-        <p className="text-ellipsis break-words">{card.description}</p>
-      </div>
-      <div className="bg-container-secondary sticky bottom-0 right-0 left-0 flex justify-end gap-4 py-2 px-4">
-        <button onClick={handleDelete}>delete</button>
-        <button onClick={toggleIsOpen}>edit</button>
-      </div>
-      <EditTaskModal isOpen={isOpen} onClose={toggleIsOpen} card={card} />
-    </div>
+      <EditTaskModal
+        isOpen={isEditTaskModalOpen}
+        onClose={() => toggleIsOpen(setIsEditTaskModalOpen)}
+        card={card}
+      />
+      <ViewTaskModal
+        isOpen={isViewTaskModalOpen}
+        onClose={() => toggleIsOpen(setIsViewTaskModalOpen)}
+        card={card}
+      />
+    </>
   );
 }

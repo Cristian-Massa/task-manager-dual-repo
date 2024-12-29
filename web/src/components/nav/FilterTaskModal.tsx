@@ -14,10 +14,13 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
   const { addToast } = useToast();
   const { isLoading, data, doFetch } = useFetch<ITasks[]>();
   const { setTasks } = useTasks();
+
   const [filter, setFilter] = useState<boolean | undefined>();
+
   function handleFilter(completed?: boolean) {
     setFilter(completed);
   }
+
   function handleFilterTasks() {
     doFetch(
       `tasks${typeof filter !== "undefined" ? `?filter=${filter}` : ""}`,
@@ -46,6 +49,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
           <span className="flex items-center gap-2 ">
             <label htmlFor="completed-tasks">Completed Tasks</label>
             <Switch
+              type="radio"
               checked={filter}
               onChange={() => handleFilter(true)}
               htmlFor="completed-tasks"
@@ -54,6 +58,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
           <span className="flex items-center gap-2 ">
             <label htmlFor="to-do-tasks">To do Tasks</label>
             <Switch
+              type="radio"
               checked={!filter && typeof filter !== "undefined"}
               onChange={() => handleFilter(false)}
               htmlFor="to-do-tasks"
