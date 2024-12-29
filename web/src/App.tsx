@@ -8,7 +8,13 @@ function App() {
   return (
     <>
       <Nav />
-      {!isLoading && (isAuthenticated ? <TasksGallery /> : <Auth />)}
+      {isLoading ? (
+        <div>Loading</div>
+      ) : isAuthenticated ? (
+        <TasksGallery />
+      ) : (
+        <Auth />
+      )}
     </>
   );
 }
