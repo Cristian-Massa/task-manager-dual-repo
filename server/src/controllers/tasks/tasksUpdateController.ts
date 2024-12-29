@@ -1,24 +1,18 @@
 import { MongoDB } from "@/mongoose/MongoDbConnection";
 import { Tasks } from "@/src/models/Tasks";
 import { Request, Response } from "express";
-type UpdateData = {
-  title: string;
-  description?: string;
-  completed: boolean;
-};
+import { validationResult } from "express-validator";
 
 export async function tasksUpdateController(req: Request, res: Response) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
   const { id } = req.params;
   const updateData = req.body;
   const mongoDB = MongoDB.getInstance();
-  if (id.length !== 24) {
-    res.status(400).json({ error: "Id is invalid" });
-    return;
-  }
-  if (!updateData.title) {
-    res.status(400).json({ error: "Title is required" });
-    return;
-  }
   try {
     await mongoDB.connect();
 

@@ -4,11 +4,32 @@ import { tasksGetDetailedController } from "@/src/controllers/tasks/tasksGetDeta
 import { tasksPostController } from "@/src/controllers/tasks/tasksPostController";
 import { tasksUpdateController } from "@/src/controllers/tasks/tasksUpdateController";
 import { Router } from "express";
+import { body, param } from "express-validator";
 
 export const tasksRouter = Router();
 
 tasksRouter.get("/tasks", tasksGetController);
-tasksRouter.get("/tasks/:id", tasksGetDetailedController);
-tasksRouter.delete("/tasks/:id", tasksDeleteController);
-tasksRouter.post("/tasks", tasksPostController);
-tasksRouter.put("/tasks/:id", tasksUpdateController);
+tasksRouter.get(
+  "/tasks/:id",
+  [param("id").isMongoId().withMessage("Id should be mongo id")],
+  tasksGetDetailedController
+);
+tasksRouter.delete(
+  "/tasks/:id",
+  [param("id").isMongoId().withMessage("Id should be mongo id")],
+  tasksDeleteController
+);
+tasksRouter.post(
+  "/tasks",
+  [body("title").notEmpty().withMessage("Title is required")],
+  tasksPostController
+);
+tasksRouter.put(
+  "/tasks/:id",
+  [
+    param("id").isMongoId().withMessage("Id should be mongo id"),
+    body("title").notEmpty().withMessage("Title is required"),
+    body("description").optional(),
+  ],
+  tasksUpdateController
+);

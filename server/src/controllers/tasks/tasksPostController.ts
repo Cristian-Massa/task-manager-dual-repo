@@ -1,13 +1,16 @@
 import { MongoDB } from "@/mongoose/MongoDbConnection";
 import { Tasks } from "@/src/models/Tasks";
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 
 export async function tasksPostController(req: Request, res: Response) {
-  const { title, description } = req.body;
-  if (!title) {
-    res.status(400).json({ error: "Title is required" });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
     return;
   }
+  const { title, description } = req.body;
+
   const mongoDB = MongoDB.getInstance();
   try {
     await mongoDB.connect();

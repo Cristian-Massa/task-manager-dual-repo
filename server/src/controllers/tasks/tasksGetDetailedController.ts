@@ -1,13 +1,15 @@
 import { MongoDB } from "@/mongoose/MongoDbConnection";
 import { Tasks } from "@/src/models/Tasks";
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 
 export async function tasksGetDetailedController(req: Request, res: Response) {
-  const { id } = req.params;
-  if (id.length !== 24) {
-    res.status(400).json({ error: "Id is invalid" });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
     return;
   }
+  const { id } = req.params;
   const mongoDB = MongoDB.getInstance();
   try {
     await mongoDB.connect();
