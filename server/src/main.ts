@@ -20,5 +20,6 @@ app.listen(PORT, async () => {
 
 process.on("SIGINT", async () => {
   await mongoDb.disconnect();
+  console.log("App disconnected from MongoDB.");
   process.exit(0);
 });
