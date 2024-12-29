@@ -12,7 +12,10 @@ export async function tasksGetController(req: Request, res: Response) {
 
     const tasks = await Tasks.find(
       typeof cast === "boolean" ? { completed: filter } : {}
-    );
+    ).select({
+      __v: 0,
+      description: 0,
+    });
 
     await mongoDB.disconnect();
     if (!tasks.length) {

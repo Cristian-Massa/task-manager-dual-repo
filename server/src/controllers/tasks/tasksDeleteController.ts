@@ -8,6 +8,10 @@ export async function tasksDeleteController(req: Request, res: Response) {
     res.status(400).json({ error: "Id is required" });
     return;
   }
+  if (id.length !== 24) {
+    res.status(400).json({ error: "Id is invalid" });
+    return;
+  }
   const mongoDB = MongoDB.getInstance();
   try {
     await mongoDB.connect();
