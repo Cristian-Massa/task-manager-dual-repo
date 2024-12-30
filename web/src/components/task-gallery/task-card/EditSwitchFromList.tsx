@@ -26,7 +26,6 @@ export function EditSwitchFromList({ card }: IEditSwitchFromList) {
   };
   // This function listens to clicks on the switch to optimistically update the UI.
   useEffect(() => {
-    console.log("se lee");
     setPreviusValue(isComplete);
     const index = tasks.findIndex((task) => task._id === card._id);
     if (index !== -1 && isComplete !== previusValue) {
@@ -38,7 +37,6 @@ export function EditSwitchFromList({ card }: IEditSwitchFromList) {
   }, [isComplete]);
   // This function listens for errors to revert changes in the UI.
   useEffect(() => {
-    console.log("error");
     if (errors?.length) {
       setIsComplete(!isComplete);
       addToast("Error updating task status", "error");
