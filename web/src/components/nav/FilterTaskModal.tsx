@@ -49,7 +49,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
             <Switch
               type="radio"
               checked={filter === true && filter !== null}
-              onChange={() => handleFilter(true)}
+              onChange={() => handleFilter(filter === true ? null : true)}
               htmlFor="completed-tasks"
             />
           </span>
@@ -58,7 +58,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
             <Switch
               type="radio"
               checked={filter === false && filter !== null}
-              onChange={() => handleFilter(false)}
+              onChange={() => handleFilter(filter === false ? null : false)}
               htmlFor="to-do-tasks"
             />
           </span>
