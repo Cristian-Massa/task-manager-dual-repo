@@ -5,37 +5,45 @@ import { useTasks } from "../../../context/TasksContext";
 import { useToast } from "../../../context/ToastContext";
 import { Switch } from "../../Switch";
 
-interface IEditCheckboxFromList {
+interface IEditSwitchFromList {
   card: ITasks;
 }
 
-export function EditCheckboxFromList({ card }: IEditCheckboxFromList) {
+export function EditSwitchFromList({ card }: IEditSwitchFromList) {
   const { addToast } = useToast();
   const [isComplete, setIsComplete] = useState(card.completed);
+  const [previusValue, setPreviusValue] = useState(isComplete);
   const { tasks, setTasks } = useTasks();
-  const { doFetch, data, isLoading } = useFetch<ITasks>();
+  const { doFetch, errors, isLoading } = useFetch<ITasks>();
 
   const toggleStatus = () => {
-    const newStatus = !isComplete;
-    setIsComplete(newStatus);
-    updateTaskStatus(newStatus);
+    setIsComplete(!isComplete);
+    updateTaskStatus(!isComplete);
   };
 
   const updateTaskStatus = (completed: boolean) => {
     doFetch(`tasks/${card._id}`, "PUT", JSON.stringify({ ...card, completed }));
   };
-
+  // This function listens to clicks on the switch to optimistically update the UI.
   useEffect(() => {
-    if (data) {
-      const index = tasks.findIndex((task) => task._id === data._id);
-      if (index !== -1) {
-        const updatedTasks = [...tasks];
-        updatedTasks[index] = data;
-        setTasks(updatedTasks);
-        addToast("Task status updated successfully", "success");
-      }
+    console.log("se lee");
+    setPreviusValue(isComplete);
+    const index = tasks.findIndex((task) => task._id === card._id);
+    if (index !== -1 && isComplete !== previusValue) {
+      const updatedTasks = [...tasks];
+      updatedTasks[index] = { ...card, completed: isComplete };
+      setTasks(updatedTasks);
+      addToast("Task status updated successfully", "success");
     }
-  }, [data]);
+  }, [isComplete]);
+  // This function listens for errors to revert changes in the UI.
+  useEffect(() => {
+    console.log("error");
+    if (errors?.length) {
+      setIsComplete(!isComplete);
+      addToast("Error updating task status", "error");
+    }
+  }, [errors?.length]);
 
   return (
     <div className="flex flex-col items-center gap-1">

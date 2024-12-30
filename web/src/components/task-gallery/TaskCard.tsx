@@ -4,7 +4,7 @@ import { ITasks } from "../../types/tasks";
 import { useTasks } from "../../context/TasksContext";
 import { EditTaskModal } from "./task-card/EditTaskModal";
 import { useToast } from "../../context/ToastContext";
-import { EditCheckboxFromList } from "./task-card/EditCheckboxFromList";
+import { EditSwitchFromList } from "./task-card/EditSwitchFromList";
 import { ViewTaskModal } from "./task-card/ViewTaskModal";
 
 interface ITaskCard {
@@ -56,7 +56,7 @@ export function TaskCard({ card }: ITaskCard) {
           <button onClick={() => toggleIsOpen(setIsViewTaskModalOpen)}>
             view
           </button>
-          <EditCheckboxFromList card={card} />
+          <EditSwitchFromList card={card} />
         </div>
       </div>
       <EditTaskModal
