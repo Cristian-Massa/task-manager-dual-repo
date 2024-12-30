@@ -31,7 +31,7 @@ export function useFetch<T>() {
           setErrors([...(errors ?? []), data.error]);
         }
         // Errors by express Validator (req values)
-        if (data.errors) {
+        else if (data.errors) {
           data.errors.forEach((error: ExpressValidatorError) => {
             addToast(error.msg, "error");
             setErrors([...(errors ?? []), error.msg]);

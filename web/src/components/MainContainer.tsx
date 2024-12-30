@@ -10,7 +10,7 @@ export function MainContainer() {
     Array.isArray(tasks) && tasks?.filter((task) => task.completed === true);
   const todoTasks =
     Array.isArray(tasks) && tasks?.filter((task) => task.completed === false);
-
+  console.log(tasks);
   if (!isAuthenticated) {
     return (
       <main className="flex h-[90vh] justify-center items-center">
@@ -59,7 +59,11 @@ export function MainContainer() {
           </AnimatePresence>
         </section>
       )}
-      {!tasks.length && <p className="font-bold">No Tasks found, add some</p>}
+      {!tasks.length && (
+        <div className="flex h-[80vh] justify-center items-center">
+          <p className="font-bold">No Tasks found. Add some</p>
+        </div>
+      )}
     </main>
   );
 }
