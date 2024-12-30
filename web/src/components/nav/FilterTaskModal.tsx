@@ -31,7 +31,6 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
       addToast("Filters applied", "success");
       onClose();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

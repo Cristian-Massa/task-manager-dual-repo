@@ -32,7 +32,6 @@ export function TaskCard({ card }: ITaskCard) {
       setTasks(tasks?.filter((task) => task._id !== card._id));
       addToast(data, "success");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

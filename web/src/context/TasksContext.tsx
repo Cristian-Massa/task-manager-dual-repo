@@ -62,7 +62,6 @@ export function TasksContextProvider({ children }: ITasksContextProvider) {
     if (isAuthenticated) {
       doFetch("tasks", "GET");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   useEffect(() => {

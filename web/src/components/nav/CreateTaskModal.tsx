@@ -36,7 +36,6 @@ export function CreateTaskModal({ isOpen, onClose }: ICreateTaskModal) {
       addToast("Task created", "success");
       onClose();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   return (
     <Modal
