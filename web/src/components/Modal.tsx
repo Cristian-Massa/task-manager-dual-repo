@@ -5,7 +5,7 @@ interface IModal {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 export function Modal({ isOpen, onClose, title, children, isLoading }: IModal) {
   return createPortal(

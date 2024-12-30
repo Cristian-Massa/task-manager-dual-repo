@@ -2,12 +2,14 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { CreateTaskModal } from "./nav/CreateTaskModal";
 import { FilterTaskModal } from "./nav/FilterTaskModal";
 import { useAuth } from "../context/AuthContext";
+import { AuthModal } from "./nav/AuthModal";
 
 export function Nav() {
   const { isAuthenticated } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  function toggleCreateModal(cb: Dispatch<SetStateAction<boolean>>) {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  function toggleModal(cb: Dispatch<SetStateAction<boolean>>) {
     cb((prev) => !prev);
   }
   return (
@@ -18,30 +20,41 @@ export function Nav() {
         </li>
         <li className="flex gap-4">
           <button
+            disabled={isAuthenticated}
+            onClick={() => toggleModal(setIsAuthModalOpen)}
+          >
+            Log in
+          </button>
+          <button
             disabled={!isAuthenticated}
-            onClick={() => toggleCreateModal(setIsFilterModalOpen)}
+            onClick={() => toggleModal(setIsFilterModalOpen)}
           >
             Filter
           </button>
           <button
             disabled={!isAuthenticated}
-            onClick={() => toggleCreateModal(setIsCreateModalOpen)}
+            onClick={() => toggleModal(setIsCreateModalOpen)}
           >
             Create
           </button>
         </li>
       </ul>
-      {isAuthenticated && (
+      {isAuthenticated ? (
         <>
           <CreateTaskModal
             isOpen={isCreateModalOpen}
-            onClose={() => toggleCreateModal(setIsCreateModalOpen)}
+            onClose={() => toggleModal(setIsCreateModalOpen)}
           />
           <FilterTaskModal
             isOpen={isFilterModalOpen}
-            onClose={() => toggleCreateModal(setIsFilterModalOpen)}
+            onClose={() => toggleModal(setIsFilterModalOpen)}
           />
         </>
+      ) : (
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => toggleModal(setIsAuthModalOpen)}
+        />
       )}
     </nav>
   );

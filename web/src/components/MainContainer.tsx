@@ -1,13 +1,23 @@
+import { useAuth } from "../context/AuthContext";
 import { useTasks } from "../context/TasksContext";
 import { TaskCard } from "./task-gallery/TaskCard";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function TasksGallery() {
+export function MainContainer() {
   const { tasks } = useTasks();
+  const { isAuthenticated } = useAuth();
   const completedTasks =
     Array.isArray(tasks) && tasks?.filter((task) => task.completed === true);
   const todoTasks =
     Array.isArray(tasks) && tasks?.filter((task) => task.completed === false);
+
+  if (!isAuthenticated) {
+    return (
+      <main className="flex h-[90vh] justify-center items-center">
+        <p className="font-bold text-xl">Log in to see your tasks</p>
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col md:flex-row items-center md:items-start  justify-center md:w-full gap-4 p-10">
