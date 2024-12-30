@@ -13,7 +13,7 @@ export function EditSwitchFromList({ card }: IEditSwitchFromList) {
   const { addToast } = useToast();
   const [isComplete, setIsComplete] = useState(card.completed);
   const [previusValue, setPreviusValue] = useState(isComplete);
-  const { tasks, setTasks } = useTasks();
+  const { updateTask, removeTask, filter } = useTasks();
   const { doFetch, errors, isLoading } = useFetch<ITasks>();
 
   const toggleStatus = () => {
@@ -26,14 +26,12 @@ export function EditSwitchFromList({ card }: IEditSwitchFromList) {
   };
   // This function listens to clicks on the switch to optimistically update the UI.
   useEffect(() => {
+    if (isComplete === previusValue) return;
     setPreviusValue(isComplete);
-    const index = tasks.findIndex((task) => task._id === card._id);
-    if (index !== -1 && isComplete !== previusValue) {
-      const updatedTasks = [...tasks];
-      updatedTasks[index] = { ...card, completed: isComplete };
-      setTasks(updatedTasks);
-      addToast("Task status updated successfully", "success");
-    }
+    filter !== null
+      ? removeTask(card._id)
+      : updateTask(card._id, { ...card, completed: isComplete });
+    addToast("Task status updated successfully", "success");
   }, [isComplete]);
   // This function listens for errors to revert changes in the UI.
   useEffect(() => {

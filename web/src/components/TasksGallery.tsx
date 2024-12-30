@@ -49,9 +49,7 @@ export function TasksGallery() {
           </AnimatePresence>
         </section>
       )}
-      {!Array.isArray(todoTasks) && !Array.isArray(completedTasks) && (
-        <p className="font-bold">No Tasks found, add some</p>
-      )}
+      {!tasks.length && <p className="font-bold">No Tasks found, add some</p>}
     </main>
   );
 }

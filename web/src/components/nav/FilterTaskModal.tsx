@@ -13,11 +13,11 @@ interface IFilterTaskModal {
 export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
   const { addToast } = useToast();
   const { isLoading, data, doFetch } = useFetch<ITasks[]>();
-  const { setTasks } = useTasks();
+  const { setTasks, handleFilterTask } = useTasks();
 
-  const [filter, setFilter] = useState<boolean | null>();
+  const [filter, setFilter] = useState<boolean | null>(null);
 
-  function handleFilter(completed?: boolean) {
+  function handleFilter(completed: boolean | null) {
     setFilter(completed);
   }
 
@@ -27,6 +27,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
   useEffect(() => {
     if (data) {
       setTasks(data);
+      handleFilterTask(filter);
       addToast("Filters applied", "success");
       onClose();
     }
@@ -63,7 +64,7 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
           </span>
           <button
             className="active:bg-container-header transition-colors duration-100 bg-black text-white rounded-lg"
-            onClick={() => handleFilter()}
+            onClick={() => handleFilter(null)}
           >
             Clear Filters
           </button>

@@ -15,7 +15,7 @@ interface IEditTaskModal {
 export function EditTaskModal({ isOpen, onClose, card }: IEditTaskModal) {
   const { isLoading, data, doFetch } = useFetch<ITasks>();
   const { addToast } = useToast();
-  const { tasks, setTasks } = useTasks();
+  const { updateTask, removeTask, filter } = useTasks();
   const [taskInfo, setTaskInfo] = useState({
     title: card.title ?? "",
     description: card.description ?? "",
@@ -32,17 +32,12 @@ export function EditTaskModal({ isOpen, onClose, card }: IEditTaskModal) {
     doFetch(`tasks/${card._id}`, "PUT", JSON.stringify(taskInfo));
   }
   useEffect(() => {
-    if (data) {
-      const index = tasks.findIndex((element) => element._id === data._id);
+    if (!data) return;
+    filter !== null ? removeTask(data._id) : updateTask(data._id, data);
+    addToast("Info edited", "success");
 
-      if (index !== -1) {
-        const updatedTasks = [...tasks];
-        updatedTasks[index] = data;
-        setTasks(updatedTasks);
-        addToast("Info edited", "success");
-      }
-      onClose();
-    }
+    onClose();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
