@@ -17,8 +17,8 @@ export function CreateTaskModal({ isOpen, onClose }: ICreateTaskModal) {
     description: "",
   };
   const { addToast } = useToast();
-  const { isLoading, data, doFetch } = useFetch();
-  const { addTask } = useTasks();
+  const { isLoading, data, doFetch } = useFetch<ITasks>();
+  const { addTask, filter } = useTasks();
   const [taskInfo, setTaskInfo] = useState(initialData);
   function handleTaskInfo(info: string, id: string) {
     setTaskInfo((prev) => ({
@@ -31,7 +31,7 @@ export function CreateTaskModal({ isOpen, onClose }: ICreateTaskModal) {
   }
   useEffect(() => {
     if (data) {
-      addTask(data as ITasks);
+      !filter && addTask(data);
       setTaskInfo(initialData);
       addToast("Task created", "success");
       onClose();
