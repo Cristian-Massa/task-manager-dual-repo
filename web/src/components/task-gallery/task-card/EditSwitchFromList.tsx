@@ -47,7 +47,6 @@ export function EditSwitchFromList({ card }: IEditSwitchFromList) {
         Task done
       </label>
       <Switch
-        type="checkbox"
         onChange={toggleStatus}
         checked={isComplete}
         disabled={isLoading}

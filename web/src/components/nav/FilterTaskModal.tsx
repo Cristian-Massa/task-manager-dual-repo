@@ -47,7 +47,6 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
           <span className="flex items-center gap-2 ">
             <label htmlFor="completed-tasks">Completed Tasks</label>
             <Switch
-              type="radio"
               checked={filter === true && filter !== null}
               onChange={() => handleFilter(filter === true ? null : true)}
               htmlFor="completed-tasks"
@@ -56,7 +55,6 @@ export function FilterTaskModal({ isOpen, onClose }: IFilterTaskModal) {
           <span className="flex items-center gap-2 ">
             <label htmlFor="to-do-tasks">To do Tasks</label>
             <Switch
-              type="radio"
               checked={filter === false && filter !== null}
               onChange={() => handleFilter(filter === false ? null : false)}
               htmlFor="to-do-tasks"
