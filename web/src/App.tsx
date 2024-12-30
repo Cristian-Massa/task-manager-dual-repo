@@ -9,7 +9,7 @@ function App() {
     <>
       <Nav />
       {isLoading ? (
-        <div className="flex h- justify-center items-center">Loading</div>
+        <div className="flex h-[80vh] justify-center items-center">Loading</div>
       ) : isAuthenticated ? (
         <TasksGallery />
       ) : (
