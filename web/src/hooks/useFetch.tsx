@@ -45,7 +45,6 @@ export function useFetch<T>() {
           ...(errors ?? []),
           error || "Cannot comunicate with server",
         ]);
-        console.log(error);
       })
       .finally(() => setIsLoading(false));
   };

@@ -66,7 +66,6 @@ export function TasksContextProvider({ children }: ITasksContextProvider) {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    console.log("aca mira", data);
     if (data) {
       setTasks(data);
     }

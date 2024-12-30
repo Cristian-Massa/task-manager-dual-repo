@@ -10,7 +10,7 @@ export function MainContainer() {
     Array.isArray(tasks) && tasks?.filter((task) => task.completed === true);
   const todoTasks =
     Array.isArray(tasks) && tasks?.filter((task) => task.completed === false);
-  console.log(tasks);
+
   if (!isAuthenticated) {
     return (
       <main className="flex h-[90vh] justify-center items-center">
