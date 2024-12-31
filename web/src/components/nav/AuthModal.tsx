@@ -51,7 +51,11 @@ export function AuthModal({ isOpen, onClose }: IAuthModal) {
             placeholder="Password123"
             type="password"
           />
-          <button onClick={handleSubmit} className="bg-container-secondary">
+          <button
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="bg-container-secondary disabled:bg-gray-600"
+          >
             {isRegistering ? "Register" : "Log in"}
           </button>
         </form>
@@ -62,8 +66,9 @@ export function AuthModal({ isOpen, onClose }: IAuthModal) {
               : "You not have account?. Not problem just register pressing here"}
           </p>
           <button
+            disabled={isLoading}
             onClick={handleIsRegistering}
-            className="bg-container-secondary"
+            className="bg-container-secondary disabled:bg-gray-600"
           >
             {isRegistering ? "Log In" : "Register"}
           </button>
